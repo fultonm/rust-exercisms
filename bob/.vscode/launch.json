@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "gdb",
+            "request": "launch",
+            "name": "Attach to PID",
+            "target": "[PID]",
+            "cwd": "${workspaceRoot}"
+        },
+        {
+            "name": "Debug",
+            "type": "gdb",
+            "request": "launch",
+            "target": "./bin/executable",
+            "cwd": "${workspaceRoot}"
+        }
+    ]
+}
