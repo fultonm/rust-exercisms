@@ -16,25 +16,10 @@ pub fn nth(n: usize) -> Result<usize, &'static str> {
 
 fn sieve(nums: &mut [usize], size: usize, size_sqrt: usize) -> Vec<usize> {
     for i in 0..size {
-        if i < 2 {
-            nums[i] = 0;
+        if nums[i] == 0 {
             continue;
-        } else if nums[i] > size_sqrt {
-            break;
         }
-        for j in (nums[i].pow(2)..size).filter(|x| x % i == 0) {
-            nums[j] = 0;
-        }
-    }
-    return nums.iter()
-        .filter(|&x| *x != 0)
-        .map(|&x| x as usize)
-        .collect();
-}
-
-fn sieve(nums: &mut [usize], size: usize, size_sqrt: usize) -> Vec<usize> {
-    for i in 0..size {
-        if i < 2 {
+        else if i < 2 {
             nums[i] = 0;
             continue;
         } else if nums[i] > size_sqrt {
