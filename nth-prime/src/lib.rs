@@ -7,11 +7,8 @@ pub fn nth(n: usize) -> Result<usize, &'static str> {
     let size: usize = (2 as f64 * n as f64 * (n as f64).ln()).ceil() as usize + 4;
     let size_sqrt: usize = (size as f64).sqrt().ceil() as usize;
     let mut nums: Vec<usize> = vec![0; size];
-    for i in 0..size {
-        nums[i] = i;
-    }
     let primes: Vec<usize> = sieve(&mut nums, size, size_sqrt);
-    return Ok(primes[n - 1]);
+    return Ok(primes[n]);
 }
 
 fn sieve(nums: &mut [usize], size: usize, size_sqrt: usize) -> Vec<usize> {
