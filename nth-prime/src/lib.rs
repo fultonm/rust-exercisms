@@ -7,21 +7,15 @@ pub fn nth(n: usize) -> Result<usize, &'static str> {
     let size: usize = (2 as f64 * n as f64 * (n as f64).ln()).ceil() as usize + 4;
     let size_sqrt: usize = (size as f64).sqrt().ceil() as usize;
     let mut nums: Vec<usize> = vec![0; size];
-    for i in 0..size {
-        nums[i] = i;
-    }
     let primes: Vec<usize> = sieve(&mut nums, size, size_sqrt);
-    return Ok(primes[n - 1]);
+    return Ok(primes[n]);
 }
 
 fn sieve(nums: &mut [usize], size: usize, size_sqrt: usize) -> Vec<usize> {
     for i in 0..size {
-        if i < 2 {
-            nums[i] = 0;
-            continue;
-        } else if nums[i] > size_sqrt {
-            break;
-        }
+        nums[i] = i;
+    }
+    for i in 2..size_sqrt {
         for j in (nums[i].pow(2)..size).filter(|x| x % i == 0) {
             nums[j] = 0;
         }
@@ -32,7 +26,7 @@ fn sieve(nums: &mut [usize], size: usize, size_sqrt: usize) -> Vec<usize> {
         .collect();
 }
 
-fn sieve(nums: &mut [usize], size: usize, size_sqrt: usize) -> Vec<usize> {
+fn sieve_parallel(nums: &mut [usize], size: usize, size_sqrt: usize) -> Vec<usize> {
     for i in 0..size {
         if i < 2 {
             nums[i] = 0;
