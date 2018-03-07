@@ -1,23 +1,46 @@
+use std::result::Result;
+
+/**
+ * Michael Fulton
+ * 03/05/2018
+ *
+ * Given a number n, determine what the nth prime is.
+ *
+ * By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that
+ * the 6th prime is 13.
+ *
+ */
+
 pub fn nth(n: usize) -> Result<usize, &'static str> {
     if n < 1 {
-        return Err("Need to take at least the 1st prime");
+        let msg: &'static str = &'static format!("Cannot find a prime which comes before the first prime number. (n = {0})", n);
+        return Err(msg);
     }
-    // Set an upper bound for seiving, ensure size is at least 4 so we can get
-    // a square root calculation.
-    let size: usize = (2 as f64 * n as f64 * (n as f64).ln()).ceil() as usize + 4;
-    let size_sqrt: usize = (size as f64).sqrt().ceil() as usize;
-    let mut nums: Vec<usize> = vec![0; size];
-    let primes: Vec<usize> = sieve(&mut nums, size, size_sqrt);
-    return Ok(primes[n]);
+    Ok(prime_at_position(n))
 }
 
-fn sieve(nums: &mut [usize], size: usize, size_sqrt: usize) -> Vec<usize> {
-    for i in 0..size {
+/**
+ * Finds the nth prime number by calculating the maximum possible value of such a prime
+ * and building an array of all the primes up to that value.
+ */
+fn prime_at_position(n: usize) -> usize {
+    let size: usize = ((2 * n) as f64 * (n as f64).ln()).ceil() as usize + 4;
+    let size_sqrt: usize = (size as f64).sqrt().ceil() as usize;
+    let mut nums: Vec<usize> = vec![0; size];
+    //
+    for i in 2..size {
+        nums[i] = i;
+    }
+    let primes: Vec<usize> = eratosthenes_sieve(&mut nums, size, size_sqrt);
+    primes[n - 1]
+}
+
+/**
+ * Rules out the numbers which cannot be prime.
+ */
+fn eratosthenes_sieve(nums: &mut [usize], size: usize, size_sqrt: usize) -> Vec<usize> {
+    for i in 2..size {
         if nums[i] == 0 {
-            continue;
-        }
-        else if i < 2 {
-            nums[i] = 0;
             continue;
         } else if nums[i] > size_sqrt {
             break;
@@ -26,8 +49,8 @@ fn sieve(nums: &mut [usize], size: usize, size_sqrt: usize) -> Vec<usize> {
             nums[j] = 0;
         }
     }
-    return nums.iter()
+    nums.iter()
         .filter(|&x| *x != 0)
         .map(|&x| x as usize)
-        .collect();
+        .collect()
 }

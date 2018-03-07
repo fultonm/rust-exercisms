@@ -21,7 +21,6 @@ fn test_big_prime() {
 }
 
 #[test]
-#[ignore]
 fn test_huge_prime() {
     assert_eq!(np::nth(99999), Ok(1299689));
 }
