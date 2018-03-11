@@ -13,8 +13,7 @@ use std::result::Result;
 
 pub fn nth(n: usize) -> Result<usize, &'static str> {
     if n < 1 {
-        let msg: &'static str = &'static format!("Cannot find a prime which comes before the first prime number. (n = {0})", n);
-        return Err(msg);
+        return Err("Cannot find a prime which comes before the first prime number. (n < 1)");
     }
     Ok(prime_at_position(n))
 }
